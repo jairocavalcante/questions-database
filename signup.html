@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <body>
+    <h1 id="cadastro">Cadastro</h1>
+    {{ message }}
+    <form action="/signup" method="post">
+      <label for="username">usuário</label><input type="text" name="username" value="{{ username }}" id="username"><br>
+      <label for="email">email</label><input type="text" name="email" value="{{ email }}" id="email"><br>
+      <label for="password">senha</label><input type="password" name="password" value="" id="password"><br>
+      <input type="submit" name="some_name" value="Enviar" id="some_name">
+    </form>
+
+  </body>
+</html>
+{% endautoescape %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<p>
+  <h2 id="questions">
+    <a href="/u/{{user.login}}">{{user.login}}</a> /
+    <a href="/q/{{user.login}}">questões</a> /
+    <a href="/b/{{user.login}}">questionários</a> /
+    <a href="/s/{{user.login}}">favoritos</a>
+  </h2>
+</p>
+<!-- <p>
+  <h2 id="questionnaires">
+    <a href="{{user.login}}">{{user.login}}</a> / <a href="/b/{{user.login}}">questionários</a>
+  </h2>
+</p>
+<p>
+  <h2 id="favorites">
+    <a href="{{user.login}}">{{user.login}}</a> / <a href="/s/{{user.login}}">favoritos</a>
+  </h2>
+</p> -->
+{% endblock %}

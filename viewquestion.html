@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 id="question">
+  <a href="/u/{{session_user.login}}">{{session_user.login}}</a> / questões
+</h2>
+<p>
+  <label for="subject">Author:</label> {{ question.user.login }} <br>
+  <label for="subject">Disciplina:</label> {{ question.subject }} <br>
+  <label for="tags">Tags:</label> {{ question.tags }} <br>
+  <label for="content">Conteúdo:</label><br>
+  <div>
+    {{ question.content.text }}
+  </div>
+</p>
+{% endblock %}

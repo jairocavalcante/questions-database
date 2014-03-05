@@ -1,0 +1,19 @@
+<!doctype html>
+{% autoescape true %}
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Questões e exercícios">
+  <title>Questões e exercícios</title>
+  <!-- <link rel="stylesheet" href="mystyles.css">
+  <script src="myscript.js"></script>   -->
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+</head>
+<body>
+  <p><a href="/q/new">Nova questão</a> —  <a href="/logout">Log out</a> —
+  Usuário: <a href="/u/{{ session_user.login }}">{{ session_user.login }}</a></p>
+  {% block content %}{% endblock %}
+</body>
+</html>
+{% endautoescape %}

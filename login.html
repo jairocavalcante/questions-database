@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <body>
+    {{ message }}
+    <form action="/login" method="post">
+      <label for="username">usuário</label><input type="text" name="username" value="" id="username"><br>
+      <label for="password">senha</label><input type="password" name="password" value="" id="password"><br>
+      <input type="submit" name="some_name" value="Enviar" id="some_name">
+    </form>
+
+  </body>
+</html>
+{% endautoescape %}

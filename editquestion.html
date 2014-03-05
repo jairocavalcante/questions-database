@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 id="question">
+  <a href="/u/{{ session_user.login }}">{{ session_user.login }}</a> / questões
+</h2>
+{% if question %}
+<p><form action="/q/edit" method="post">
+  <input type="hidden" name="author" value="{{ session_user.login }}" id="user">
+  <input type="hidden" name="question" value="{{ question.key }}" id="question">
+  <label for="subject">Author:</label> {{ session_user.login }}<br>
+  <label for="subject">Disciplina:</label><input type="text" name="subject" value="{{ question.subject }}" id="subject"><br>
+  <label for="tags">Tags:</label><input type="text" name="tags" value="{{ question.tags }}" id="tags"><br>
+  <label for="content">Conteúdo:</label><br>
+  <textarea name="content" rows="20" cols="60">{{ question.content.text }}</textarea>
+  <p><input type="submit" value="Salvar &rarr;"></p>
+</form></p>
+{% else %}
+<p><form action="/q/new" method="post">
+  <input type="hidden" name="author" value="{{ session_user.login }}" id="user">
+  <label for="subject">Author:</label> {{ session_user.login }}<br>
+  <label for="subject">Disciplina:</label><input type="text" name="subject" value="" id="subject"><br>
+  <label for="tags">Tags:</label><input type="text" name="tags" value="" id="tags"><br>
+  <label for="content">Conteúdo:</label><br>
+  <textarea name="content" rows="20" cols="60"></textarea>
+  <p><input type="submit" value="Salvar &rarr;"></p>
+</form></p>
+{% endif %}
+{% endblock %}
