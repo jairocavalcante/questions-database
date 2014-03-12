@@ -13,7 +13,7 @@ class User(ndb.Model):
 
 
 class Question(ndb.Model):
-	date_created = ndb.DateProperty(auto_now_add=True)
+	date_created = ndb.DateTimeProperty(auto_now_add=True)
 	content = ndb.KeyProperty()
 	tags = ndb.StringProperty(repeated=True)
 	subject = ndb.StringProperty(indexed=True)
@@ -163,14 +163,31 @@ def get_questions_by_user(user):
 	return [_question_from_model(q) for q in query.fetch()]
 
 
+def get_recent_questions():
+	query = Question.query(Question.releasetag == 'HEAD').order(-Question.date_created)
+	return [_question_from_model(q) for q in query.fetch(10)]
+
+
+def search_questions(q):
+	query_content = Content.query(Content.text == q)
+	query = Question.query(Question.releasetag == 'HEAD', Question.content.text).order(-Question.date_created)
+	return [_question_from_model(q) for q in query.fetch()]
+
+import markdown2
+
 def _question_from_model(question):
-	content = question.content.get()
+	content = question.content.get().text
 	# content = qdb.Content(content.text)
 	author = question.key.parent().get()
 	author = _user_from_model(author)
 	_question = qdb.Question(question.date_created, content, author,
 		subject=question.subject, tags=question.tags)
 	_question.key = question.key.urlsafe()
+	_question.html_content = markdown2.markdown(content)
+	if question.tags:
+		_question.str_tags = ', '.join(question.tags)
+	else:
+		_question.str_tags = ''
 	return _question
 
 

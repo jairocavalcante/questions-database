@@ -84,6 +84,11 @@ def startswithany(s, seq):
 	return any([s.startswith(part) for part in seq])
 
 
+class SearchHandler(MainHandler):
+	def get(self):
+		query = self.request.get('q')
+
+
 class FavoriteHandler(MainHandler):
 	def get(self, question_key):
 		question = models.get_question_by_key(question_key)
@@ -178,7 +183,7 @@ class HomeHandler(MainHandler):
 	def get(self, username):
 		user = models.get_user_by_username(username)
 		if user:
-			questions = models.get_questions_by_user(user)
+			questions = models.get_recent_questions()
 			variables = {'user': user,
 				'questions': questions }
 			self.render_template(**variables)
@@ -255,6 +260,7 @@ app = webapp2.WSGIApplication([
     ('/q/(.+)', QuestionHandler),
     ('/f/(.+)', FavoriteHandler),
     ('/s/(.+)', ListFavoritesHandler),
+    ('/search', SearchHandler),
 ], debug=True)
 
 

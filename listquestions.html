@@ -7,12 +7,15 @@
   <ul>
     {% for q in questions %}
     <li>
-      <a href="/q/{{ q.key }}">{{ q.content.text }}</a>
+      <a href="/q/{{ q.key }}">{{ q.content }}</a>
       <ul>
         <li>Disciplina: {{ q.subject }}</li>
       </ul>
       <p>
-        {{ q.tags }} — 
+        {% for t in q.tags %}
+        {{ t }} 
+        {% endfor %}
+        — 
         <a href="/f/{{ q.key }}">gostei</a> — 
         <a href="/q/edit/{{ q.key }}">editar</a> — 
         <a href="/q/delete/{{ q.key }}">apagar</a>

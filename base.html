@@ -9,10 +9,33 @@
   <script src="myscript.js"></script>   -->
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
   </script>
+  <style type="text/css" media="screen">
+    .question-content {
+      border: 1px solid black;
+      padding: 10px;
+    }
+    .question-content a {
+      text-decoration: none;
+      color: black;
+    }
+    a {
+      color: green;
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <p><a href="/q/new">Nova questão</a> —  <a href="/logout">Log out</a> —
-  Usuário: <a href="/u/{{ session_user.login }}">{{ session_user.login }}</a></p>
+  <p>
+    Usuário: <a href="/u/{{ session_user.login }}">{{ session_user.login }}</a> —
+    <a href="/q/new">Nova questão</a> —
+    <a href="/logout">Log out</a>
+  </p>
+  <p>
+    <!-- <form action="/search" method="get" accept-charset="utf-8">
+      <input type="text" name="q" value="" size=80 id="query">
+      <input type="submit" value="Buscar">
+    </form> -->
+  </p>
   {% block content %}{% endblock %}
 </body>
 </html>

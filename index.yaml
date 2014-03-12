@@ -11,8 +11,8 @@ indexes:
 # your application using appcfg.py.
 
 - kind: Question
-  ancestor: yes
   properties:
+  - name: releasetag
   - name: date_created
     direction: desc
 

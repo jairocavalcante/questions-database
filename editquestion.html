@@ -9,9 +9,9 @@
   <input type="hidden" name="question" value="{{ question.key }}" id="question">
   <label for="subject">Author:</label> {{ session_user.login }}<br>
   <label for="subject">Disciplina:</label><input type="text" name="subject" value="{{ question.subject }}" id="subject"><br>
-  <label for="tags">Tags:</label><input type="text" name="tags" value="{{ question.tags }}" id="tags"><br>
+  <label for="tags">Tags:</label><input type="text" name="tags" value="{{ question.str_tags }}" id="tags" size=60><br>
   <label for="content">Conteúdo:</label><br>
-  <textarea name="content" rows="20" cols="60">{{ question.content.text }}</textarea>
+  <textarea name="content" rows="20" cols="60">{{ question.content }}</textarea>
   <p><input type="submit" value="Salvar &rarr;"></p>
 </form></p>
 {% else %}
