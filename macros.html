@@ -1,0 +1,23 @@
+{% macro question_content(q) -%}
+<div class="question-content">
+  <a href="/q/{{ q.key }}">
+  {% autoescape false %}
+  {{ q.html_content }}
+  {% endautoescape %}
+  </a>
+</div>
+{%- endmacro %}
+
+{% macro question_detail(q) -%}
+<ul>
+  <li>Autor: <a href="/u/{{q.user.login}}">{{ q.user.login }}</a></li>
+  <li>Disciplina: {{ q.subject }}</li>
+  <li>Registro: {{ q.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</li>
+</ul>
+<p>
+  {{ q.tags | join(', ') }} — 
+  <a href="/f/{{ q.key }}">gostei</a> — 
+  <a href="/q/edit/{{ q.key }}">editar</a> — 
+  <a href="/q/delete/{{ q.key }}">apagar</a>
+</p>
+{%- endmacro %}

@@ -1,5 +1,6 @@
+{% import 'macros.html' as macros %}
 {% extends "base.html" %}
-{% block content %}
+{% block header %}
 <p>
   <h2 id="questions">
     <a href="/u/{{user.login}}">{{user.login}}</a> /
@@ -8,28 +9,13 @@
     <a href="/s/{{user.login}}">favoritos</a>
   </h2>
 </p>
-<hr>
+{% endblock %}
+{% block content %}
 <p>
   <h2>Últimas questões</h2>
   {% for q in questions %}
-  <div class="question-content">
-    <a href="/q/{{ q.key }}">
-    {% autoescape false %}
-    {{ q.html_content }}
-    {% endautoescape %}
-    </a>
-  </div>
-  <ul>
-    <li>Autor: <a href="/u/{{user.login}}">{{ q.user.login }}</a></li>
-    <li>Disciplina: {{ q.subject }}</li>
-    <li>Registro: {{ q.date_created }}</li>
-  </ul>
-  <p>
-    {{ q.tags | join(', ') }} — 
-    <a href="/f/{{ q.key }}">gostei</a> — 
-    <a href="/q/edit/{{ q.key }}">editar</a> — 
-    <a href="/q/delete/{{ q.key }}">apagar</a>
-  </p>
+  {{ macros.question_content(q) }}
+  {{ macros.question_detail(q) }}
   <hr size=1 noshade=noshade>
   {% endfor %}
 </p>

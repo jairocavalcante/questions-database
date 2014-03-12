@@ -1,27 +1,18 @@
+{% import 'macros.html' as macros %}
 {% extends "base.html" %}
-{% block content %}
+{% block header %}
 <p>
   <h2 id="questions">
     <a href="/u/{{user.login}}">{{user.login}}</a> / <a href="/q/{{user.login}}">questões</a>
   </h2>
-  <ul>
-    {% for q in questions %}
-    <li>
-      <a href="/q/{{ q.key }}">{{ q.content }}</a>
-      <ul>
-        <li>Disciplina: {{ q.subject }}</li>
-      </ul>
-      <p>
-        {% for t in q.tags %}
-        {{ t }} 
-        {% endfor %}
-        — 
-        <a href="/f/{{ q.key }}">gostei</a> — 
-        <a href="/q/edit/{{ q.key }}">editar</a> — 
-        <a href="/q/delete/{{ q.key }}">apagar</a>
-      </p>
-    </li>
-    {% endfor %}
-  </ul>
+</p>
+{% endblock %}
+{% block content %}
+<p>
+  {% for q in questions %}
+  {{ macros.question_content(q) }}
+  {{ macros.question_detail(q) }}
+  <hr size=1 noshade=noshade>
+  {% endfor %}
 </p>
 {% endblock %}
