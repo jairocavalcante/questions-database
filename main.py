@@ -135,9 +135,10 @@ class QuestionHandler(MainHandler):
 			action = self.request.path.split('/')[2]
 			if models.check_username(action):
 				handler = ListQuestionsHandler(self.request, self.response)
-			else:
+			elif action.startswith('tag:'):
 				handler = ListQuestionsHandler(self.request, self.response)
-				# handler = ViewQuestionHandler(self.request, self.response)
+			else:
+				handler = ViewQuestionHandler(self.request, self.response)
 		handler.dispatch()
 
 
