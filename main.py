@@ -54,6 +54,14 @@ class MainHandler(webapp2.RequestHandler):
 	def redirect_to_user_questionaires(self, user):
 		self.redirect('/b/%s' % user.login)
 	
+	def redirect_to(self, to, user):
+		r = {
+			'home': self.redirect_to_user_home,
+			'listquestions': self.redirect_to_user_questions,
+			'listfavorites': self.redirect_to_user_favorites
+		}
+		r.get(to, self.redirect_to_user_home)(user)
+	
 	def get_user(self):
 		userlogin = self.request.cookies.get('userlogin', None)
 		if userlogin:
@@ -92,9 +100,16 @@ class SearchHandler(MainHandler):
 class FavoriteHandler(MainHandler):
 	def get(self, question_key):
 		question = models.get_question_by_key(question_key)
-		if question:
+		user = self.get_user()
+		if question_key not in user.favorites:
 			models.add_question_to_favorite_list(question, self.get_user())
-		self.redirect_to_user_favorites(self.get_user())
+		else:
+			models.delete_question_from_favorite_list(question, self.get_user())
+		redirect = self.request.get('r', '')
+		if redirect:
+			self.redirect_to(redirect, self.get_user())
+		else:
+			self.redirect_to_user_favorites(self.get_user())
 
 
 class ListFavoritesHandler(MainHandler):
@@ -131,7 +146,7 @@ class ListQuestionsHandler(MainHandler):
 		user = models.get_user_by_username(username)
 		if user:
 			questions = models.get_questions_by_user(user)
-			variables = {'user': user,
+			variables = { 'user': user,
 				'questions': questions }
 			self.render_template(**variables)
 		else:

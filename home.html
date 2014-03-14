@@ -13,11 +13,7 @@
 {% block content %}
 <p>
   <h2>Últimas questões</h2>
-  {% for q in questions %}
-  {{ macros.question_content(q) }}
-  {{ macros.question_detail(q) }}
-  <hr size=1 noshade=noshade>
-  {% endfor %}
+  {{ macros.list_questions(questions, session_user) }}
 </p>
 <!-- <p>
   <h2 id="questionnaires">

@@ -29,6 +29,16 @@ class Content(ndb.Model):
 	# key: hashcode
 
 
+def get_favorite_question_keys_by_user(user):
+	userkey = ndb.Key(urlsafe=user.key)
+	query = FavoriteList.query(ancestor=userkey)
+	favlist = query.fetch()
+	if favlist:
+		return [key.urlsafe() for key in favlist[0].questions]
+	else:
+		return []
+
+
 def get_favorite_questions_by_user(user):
 	userkey = ndb.Key(urlsafe=user.key)
 	query = FavoriteList.query(ancestor=userkey)
@@ -44,12 +54,26 @@ def add_question_to_favorite_list(question, user):
 	query = FavoriteList.query(ancestor=userkey)
 	favlist = query.fetch()
 	if favlist:
+		favlist = favlist[0]
 		favlist.questions.append(ndb.Key(urlsafe=question.key))
 	else:
 		favlist = FavoriteList(parent=userkey)
 		favlist.questions = [ndb.Key(urlsafe=question.key)]
 	favlist.put()
 
+
+def delete_question_from_favorite_list(question, user):
+	userkey = ndb.Key(urlsafe=user.key)
+	query = FavoriteList.query(ancestor=userkey)
+	favlist = query.fetch()
+	if favlist:
+		favlist = favlist[0]
+		try:
+			idx = favlist.questions.index(ndb.Key(urlsafe=question.key))
+			del favlist.questions[idx]
+			favlist.put()
+		except ValueError:
+			pass
 
 def get_user_by_username(username):
 	user = ndb.Key('User', username).get()
@@ -149,6 +173,7 @@ def _user_from_model(user):
 	_user = qdb.User(user.email, user.password)
 	_user.login = user.key.id()
 	_user.key = user.key.urlsafe()
+	_user.favorites = get_favorite_question_keys_by_user(_user)
 	return _user
 
 

@@ -8,16 +8,23 @@
 </div>
 {%- endmacro %}
 
-{% macro question_detail(q) -%}
+{% macro question_detail(q, session_user, to='home') -%}
 <ul>
   <li>Autor: <a href="/u/{{q.user.login}}">{{ q.user.login }}</a></li>
   <li>Disciplina: {{ q.subject }}</li>
   <li>Registro: {{ q.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</li>
 </ul>
 <p>
-  {{ q.tags | join(', ') }} — 
-  <a href="/f/{{ q.key }}">gostei</a> — 
+  <a href="/f/{{ q.key }}?r={{ to }}">{{ "disgostei" if q.key in session_user.favorites else "gostei" }}</a> — 
   <a href="/q/edit/{{ q.key }}">editar</a> — 
-  <a href="/q/delete/{{ q.key }}">apagar</a>
+  <a href="/q/delete/{{ q.key }}">apagar</a> — 
+  Tags: {{ q.tags | join(', ') }}
 </p>
+{%- endmacro %}
+
+{% macro list_questions(questions, session_user, to='home') -%}
+{% for q in questions %}
+{{ question_content(q) }}
+{{ question_detail(q, session_user, to) }}
+{% endfor %}
 {%- endmacro %}

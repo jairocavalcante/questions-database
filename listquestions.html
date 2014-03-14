@@ -9,10 +9,6 @@
 {% endblock %}
 {% block content %}
 <p>
-  {% for q in questions %}
-  {{ macros.question_content(q) }}
-  {{ macros.question_detail(q) }}
-  <hr size=1 noshade=noshade>
-  {% endfor %}
+  {{ macros.list_questions(questions, session_user, 'listquestions') }}
 </p>
 {% endblock %}
