@@ -193,6 +193,11 @@ def get_recent_questions():
 	return [_question_from_model(q) for q in query.fetch(10)]
 
 
+def get_questions_by_tag(tag):
+	query = Question.query(Question.releasetag == 'HEAD', Question.tags == tag).order(-Question.date_created)
+	return [_question_from_model(q) for q in query.fetch()]
+
+
 def search_questions(q):
 	query_content = Content.query(Content.text == q)
 	query = Question.query(Question.releasetag == 'HEAD', Question.content.text).order(-Question.date_created)

@@ -17,6 +17,13 @@ indexes:
     direction: desc
 
 - kind: Question
+  properties:
+  - name: releasetag
+  - name: tags
+  - name: date_created
+    direction: desc
+
+- kind: Question
   ancestor: yes
   properties:
   - name: releasetag

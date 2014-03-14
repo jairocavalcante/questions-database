@@ -136,22 +136,30 @@ class QuestionHandler(MainHandler):
 			if models.check_username(action):
 				handler = ListQuestionsHandler(self.request, self.response)
 			else:
-				handler = ViewQuestionHandler(self.request, self.response)
+				handler = ListQuestionsHandler(self.request, self.response)
+				# handler = ViewQuestionHandler(self.request, self.response)
 		handler.dispatch()
 
 
 class ListQuestionsHandler(MainHandler):
 	def get(self, *args, **kwargs):
-		username = args[0]
-		user = models.get_user_by_username(username)
-		if user:
-			questions = models.get_questions_by_user(user)
-			variables = { 'user': user,
+		if args[0].startswith('tag:'):
+			tag = args[0].split(':')[1]
+			questions = models.get_questions_by_tag(tag)
+			variables = { 'user': self.get_user(),
 				'questions': questions }
 			self.render_template(**variables)
 		else:
-			variables = { 'message': 'Usuário não encontrado'.decode('utf-8') }
-			self.render_template('fail', **variables)
+			username = args[0]
+			user = models.get_user_by_username(username)
+			if user:
+				questions = models.get_questions_by_user(user)
+				variables = { 'user': user,
+					'questions': questions }
+				self.render_template(**variables)
+			else:
+				variables = { 'message': 'Usuário não encontrado'.decode('utf-8') }
+				self.render_template('fail', **variables)
 
 
 class ViewQuestionHandler(MainHandler):

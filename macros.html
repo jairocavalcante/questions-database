@@ -18,8 +18,15 @@
   <a href="/f/{{ q.key }}?r={{ to }}">{{ "disgostei" if q.key in session_user.favorites else "gostei" }}</a> — 
   <a href="/q/edit/{{ q.key }}">editar</a> — 
   <a href="/q/delete/{{ q.key }}">apagar</a> — 
-  Tags: {{ q.tags | join(', ') }}
+  Tags: {# q.tags | map(link_tag) | join(', ') #}
+  {% for tag in q.tags %}
+  {{ link_tag(tag) }}&nbsp;
+  {% endfor %}
 </p>
+{%- endmacro %}
+
+{% macro link_tag(tag) -%}
+<a href="/q/tag:{{ tag }}" alt="Listar tag {{ tag }}">{{ tag }}</a>
 {%- endmacro %}
 
 {% macro list_questions(questions, session_user, to='home') -%}
